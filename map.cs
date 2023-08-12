@@ -79,5 +79,10 @@ namespace LilRogue
         {
             return x >= 0 && x < Width && y >= 0 && y < Height;
         }
+
+        public IMap getMap()
+        {
+            return _rogueSharpMap;
+        }
     }
 }

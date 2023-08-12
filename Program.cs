@@ -28,9 +28,10 @@ namespace LilRogue
             window.Closed += (s, e) => window.Close();
             var font = new Font("PublicPixel.ttf");
 
+
             var grid = new Grid<char> (mapWidth, mapHeight);
 
-            
+            SchedulingSystem schedulingSystem = new SchedulingSystem();
 
             //UI and ui grid
             var UIgrid = new Grid<char> (UIWidth, UIHeight);
@@ -39,13 +40,19 @@ namespace LilRogue
             var upStairsPosition = FindWalkableCell(gameMap);
             var downStairsPosition = FindWalkableCell(gameMap);
 
-            var upStairs = new Entity(grid, '<', new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1);
-            var downStairs = new Entity(grid, '>', new Vector2i(downStairsPosition.X, downStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1);
+            var upStairs = new Entity(grid, '<', new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1, gameMap);
+            var downStairs = new Entity(grid, '>', new Vector2i(downStairsPosition.X, downStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1, gameMap);
 
-            var player = new Player(grid,  new Vector2i(downStairsPosition.X, downStairsPosition.Y), Color.Black, Color.Green, Color.White, 1, gameMap);
+            var player = new Player(grid,  new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Green, Color.White, schedulingSystem, 1, gameMap);
 
+            var testMob = new Mob(grid, '!', new Vector2i(downStairsPosition.X, downStairsPosition.Y), Color.Black, Color.Red, Color.Black, 1, 1);
 
-
+            // Schedule an action to happen after 12 turns
+            schedulingSystem.Schedule(schedulingSystem.time + 12, () =>
+            {
+                Console.WriteLine("Scheduled action executed!");
+            });
+                
             while (window.IsOpen)
             {
                 window.DispatchEvents();
@@ -73,7 +80,7 @@ namespace LilRogue
                 upStairs.draw();
                 downStairs.draw();
                 player.draw();
-                
+                testMob.draw();
                 // Render UI
                 ui.DrawBorderedBox(0, 0, UIWidth, UIHeight, Color.Black, Color.White);
 
@@ -86,7 +93,8 @@ namespace LilRogue
                 UIgrid.Draw(window, font, null, 0, 30);
 
 
-                player.HandleInput(gameMap);
+                testMob.Update(gameMap, player, schedulingSystem);
+                player.HandleInput(gameMap); // Handle player input and movement
 
                 window.Display();
             }

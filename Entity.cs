@@ -12,9 +12,10 @@ namespace LilRogue
         public Color BackgroundColor { get; }
         public Color OutlineColor { get; }
         public float OutlineThickness { get; }
-
+        
         private readonly Grid<char> grid;
-        public Entity(Grid<char> grid,char symbol, Vector2i position, Color fillColor, Color backgroundColor, Color outlineColor, float outlineThickness = 0)
+        private SchedulingSystem schedulingSystem;
+        public Entity(Grid<char> grid, char symbol, Vector2i position, Color fillColor, Color backgroundColor, Color outlineColor, float outlineThickness = 0, Map? map = null)
         {
             this.grid = grid;
             Symbol = symbol;
