@@ -12,6 +12,7 @@ namespace LilRogue
         public Random RNG = new Random();
 
         private Stopwatch movementTimer = new Stopwatch();
+        private Stopwatch deathwindowTimer = new Stopwatch();
         private const int MovementDelayMilliseconds = 100; // Adjust this value to control movement speed
         public int HP = 100;
         public int MaxHP = 100;
@@ -19,6 +20,8 @@ namespace LilRogue
         public int MaxMana = 100;
         public int armor = 1;
         public int Gold = 0;
+        public bool isDead = false;
+        public bool showdeathwindow = false;
         private SchedulingSystem _schedulingSystem;
         private List<Mob> mobs = new List<Mob>();
 
@@ -86,12 +89,20 @@ namespace LilRogue
 
                 // Reset the movement timer
                 movementTimer.Restart();
+                //update player
+                Update();
 
             }
         }
 
         public void tryToMove(int x, int y, Map map, List<Mob> mobs)
         {
+            //dont move if the player is dead
+            if (isDead)
+            {
+                return;
+            }
+
             int newX = Position.X + x;
             int newY = Position.Y + y;
 
@@ -163,6 +174,24 @@ namespace LilRogue
             this.HP -=  (int) Math.Round(Math.Clamp(finalDMG * 1.25, 0, 999999), 1);
 
             DMGsound.Play();
+        }
+
+        public void Update()
+        {
+            //dead
+            if (HP <= 0)
+            {
+                isDead = true;
+                this.Symbol = '&';
+                this.BackgroundColor = Color.Black;
+                this.FillColor = Color.Red;
+                //wait a bit
+                deathwindowTimer.Start();
+                if (deathwindowTimer.ElapsedMilliseconds >= 1000)
+                {
+                    showdeathwindow = true;
+                }
+            }
         }
 
     }

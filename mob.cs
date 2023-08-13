@@ -88,7 +88,7 @@ namespace LilRogue
                         if (ToGoalPosition.X == player.Position.X && ToGoalPosition.Y == player.Position.Y)
                         {
                             Console.WriteLine("player reached! damaging player...");
-                            player.TakeDamage(1.25);
+                            player.TakeDamage(4.25);
                             break;
                         }
                         else if (ToGoalPosition.X == mob.Position.X && ToGoalPosition.Y == mob.Position.Y) //blocked by another mob
