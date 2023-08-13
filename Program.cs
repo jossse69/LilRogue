@@ -44,7 +44,7 @@ namespace LilRogue
             var Mobs = new List<Mob>();
 
             // add mobs
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
                 var mob = new Mob(grid, 'M', FindWalkableCell(gameMap), Color.Black, Color.Red, Color.Black, 35 , 1);
                 Mobs.Add(mob);
@@ -53,7 +53,7 @@ namespace LilRogue
             var upStairs = new Entity(grid, '<', new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1, gameMap);
             var downStairs = new Entity(grid, '>', new Vector2i(downStairsPosition.X, downStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1, gameMap);
 
-            var player = new Player(grid,  new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Green, Color.White, schedulingSystem, 1, gameMap, Mobs);
+            var player = new Player(grid,  new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Green, Color.White, schedulingSystem, 1, gameMap);
 
            
             // Schedule an action to happen after 12 turns
@@ -110,7 +110,7 @@ namespace LilRogue
 
 
                 
-                player.HandleInput(gameMap); // Handle player input and movement
+                player.HandleInput(gameMap, Mobs); // Handle player input and movement
 
                 window.Display();
             }

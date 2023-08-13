@@ -55,6 +55,7 @@ namespace LilRogue
          {
             var state = "wander";
             var ToGoalPosition = new Vector2i(0,0);
+            var lastSeenPlayerPosition = new Vector2i(-1, -1);
             if (HP <= 0 || HP > MaxHP)
             {
                 // set char to a bloody red "&"
@@ -68,32 +69,43 @@ namespace LilRogue
             //update state
             if (CanbeSeen(map))
             {
+                lastSeenPlayerPosition = new Vector2i(player.Position.X, player.Position.Y);
                 state = "chase";
             }
-            else
+            else if (lastSeenPlayerPosition.X != -1 && lastSeenPlayerPosition.Y != -1)
             {
                 state = "wander";
             }
          
             if (state == "chase"){
                 
-                for (int i = 0; i < schedulingSystem.calculateTimeSteps(schedulingSystem.time, schedulingSystem.time + 4, 1); i++)
+                for (int i = 0; i < schedulingSystem.calculateTimeSteps(schedulingSystem.time, schedulingSystem.time + 1, 2); i++)
                 {
-                    ToGoalPosition = GoToLocation(player.Position.X, player.Position.Y, map);
+                    
+                    ToGoalPosition = GoToLocation(lastSeenPlayerPosition.X, lastSeenPlayerPosition.Y, map);
                     //check if the mob has reached the goal position
                     foreach (var mob in mobs)
                         if (ToGoalPosition.X == player.Position.X && ToGoalPosition.Y == player.Position.Y)
                         {
-                            Console.WriteLine("Goal reached! damaging player...");
-                            player.TakeDamage(5);
+                            Console.WriteLine("player reached! damaging player...");
+                            player.TakeDamage(1.25);
+                            break;
                         }
                         else if (ToGoalPosition.X == mob.Position.X && ToGoalPosition.Y == mob.Position.Y) //blocked by another mob
                         {
-                            Console.WriteLine("blocked by another mob...");;
+                            Console.WriteLine("blocked by another mob...");
+                            break;
+                        }
+                        else if (ToGoalPosition.X == mob.Position.X && ToGoalPosition.Y == mob.Position.Y)
+                        {
+                            Console.WriteLine("cant see player...");
+                            lastSeenPlayerPosition = new Vector2i(-1, -1);
+                            break;
                         }
                         else
                         {
                             Position = new Vector2i(ToGoalPosition.X, ToGoalPosition.Y);
+                            break;
                         }
                     }
                 }
@@ -111,29 +123,30 @@ namespace LilRogue
                         if (ToGoalPosition.X == player.Position.X && ToGoalPosition.Y == player.Position.Y)
                         {
                             Console.WriteLine("blocked by player...");
+                            break;
                         }
                         else if (ToGoalPosition.X == mob.Position.X && ToGoalPosition.Y == mob.Position.Y) //blocked by another mob
                         {
                             Console.WriteLine("blocked by another mob...");
+                            break;
                         }
                         else
                         {
                             Position = new Vector2i(ToGoalPosition.X, ToGoalPosition.Y);
+                            break;
                         }
                 }
             }
          }
 
 
-         public void TakeDamage(int damage)
+         public void TakeDamage(double damage)
         {
-            var DMGmuti = Math.Clamp(RNG.NextSingle(), 0.7, 1.3);
-            var finalDMG = (int)(damage * (DMGmuti / (armor + 1)));
+            var DMGmuti = Math.Clamp(RNG.NextDouble(), 0.8, 1);
+            var finalDMG = (double) damage * (DMGmuti * (armor + 1 - 0.6));
 
-            HP -=  Math.Clamp(finalDMG, 0, 999999);
+            this.HP -=  (int) Math.Round(Math.Clamp(finalDMG * 1.25, 0, 999999), 1);
 
-            Console.WriteLine(finalDMG);
-            Console.WriteLine(HP);
         }
 
     }

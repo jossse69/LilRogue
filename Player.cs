@@ -17,7 +17,7 @@ namespace LilRogue
         public int MaxHP = 100;
         public int mana = 100;
         public int MaxMana = 100;
-        public int armor = 0;
+        public int armor = 1;
         public int Gold = 0;
         private SchedulingSystem _schedulingSystem;
         private List<Mob> mobs = new List<Mob>();
@@ -26,7 +26,7 @@ namespace LilRogue
         public Sound DMGsound = new Sound(DMGsoundBuffer);
         public static SoundBuffer attacksoundBuffer = new SoundBuffer("attack.wav");
         public Sound attacksound = new Sound(attacksoundBuffer);
-        public Player(Grid<char> grid, Vector2i position, Color fillColor, Color backgroundColor, Color outlineColor, SchedulingSystem schedulingSystem, float outlineThickness = 0, Map map = null, List<Mob> mobs = null)
+        public Player(Grid<char> grid, Vector2i position, Color fillColor, Color backgroundColor, Color outlineColor, SchedulingSystem schedulingSystem, float outlineThickness = 0, Map map = null)
         : base(grid, '@', position, fillColor, backgroundColor, outlineColor, outlineThickness)
         {
             movementTimer.Start();
@@ -39,48 +39,48 @@ namespace LilRogue
         }
 
         // Add player-specific logic here, such as handling input and movement
-         public void HandleInput(Map map)
+         public void HandleInput(Map map, List<Mob> mobs)
         {
             // Handle player input and update the player's position
             if (movementTimer.ElapsedMilliseconds >= MovementDelayMilliseconds)
             {
                 if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad8)) // Numpad 8 for moving up
                 {
-                    tryToMove(0, -1, map);
+                    tryToMove(0, -1, map, mobs);
                     
                 }
                 else if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad2)) // Numpad 2 for moving down
                 {
-                    tryToMove(0, 1, map);
+                    tryToMove(0, 1, map, mobs);
 
                 }
                 else if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad4)) // Numpad 4 for moving left
                 {
-                    tryToMove(-1, 0, map);
+                    tryToMove(-1, 0, map, mobs);
                 }
                 else if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad6)) // Numpad 6 for moving right
                 {
-                    tryToMove(1, 0, map);
+                    tryToMove(1, 0, map, mobs);
 
                 }
                 else if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad7)) // Numpad 7 for moving up-left
                 {
-                    tryToMove(-1, -1, map);
+                    tryToMove(-1, -1, map, mobs);
 
                 }
                 else if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad9)) // Numpad 9 for moving up-right
                 {
-                    tryToMove(1, -1, map);
+                    tryToMove(1, -1, map, mobs);
                     
                 }
                 else if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad1)) // Numpad 1 for moving down-left
                 {
-                    tryToMove(-1, 1, map);
+                    tryToMove(-1, 1, map, mobs);
                     
                 }
                 else if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad3)) // Numpad 3 for moving down-right
                 {
-                    tryToMove(1, 1, map);
+                    tryToMove(1, 1, map, mobs);
                     
                 }
 
@@ -90,7 +90,7 @@ namespace LilRogue
             }
         }
 
-        public void tryToMove(int x, int y, Map map)
+        public void tryToMove(int x, int y, Map map, List<Mob> mobs)
         {
             int newX = Position.X + x;
             int newY = Position.Y + y;
@@ -106,7 +106,7 @@ namespace LilRogue
                         if (mob.HP >= 0)
                         {
                          
-                            mob.TakeDamage(10);
+                            mob.TakeDamage(15);
                             // play damage sound using SFML
                             attacksound.Play();
                             // Update the scheduling system's time
@@ -155,17 +155,14 @@ namespace LilRogue
             }
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(double damage)
         {
-            var DMGmuti = Math.Clamp(RNG.NextSingle(), 0.7, 1.3);
-            var finalDMG = (int)(damage * (DMGmuti / (armor + 1)));
+            var DMGmuti = Math.Clamp(RNG.NextDouble(), 0.8, 1);
+            var finalDMG = (double) damage * (DMGmuti * (armor + 1 - 0.6));
 
-            HP -=  Math.Clamp(finalDMG, 0, 999999);
+            this.HP -=  (int) Math.Round(Math.Clamp(finalDMG * 1.25, 0, 999999), 1);
 
             DMGsound.Play();
-
-            Console.WriteLine(finalDMG);
-            Console.WriteLine(HP);
         }
 
     }
