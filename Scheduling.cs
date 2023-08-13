@@ -44,6 +44,16 @@ namespace LilRogue
                 item.Action.Invoke();
             }
         }
+
+        public int calculateTimeSteps(int timeX, int timeY, int turns)
+        {
+            int timeDifference = Math.Abs(timeX - timeY);
+            int timeSteps = timeDifference * turns;
+            return timeSteps;
+        }
+        
+            
+
     }
 
     // A priority queue implementation using a heap
@@ -117,6 +127,7 @@ namespace LilRogue
             _items[i] = _items[j];
             _items[j] = temp;
         }
+
 
     }
 }

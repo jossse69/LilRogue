@@ -1,5 +1,6 @@
 ﻿using System;
 using SFML.Graphics;
+using SFML.Audio;
 using SFML.System;
 using SFML.Window;
 using RogueSharp;
@@ -18,7 +19,7 @@ namespace LilRogue
             const int UIWidth = 50;
             const int UIHeight = 7;
 
-            var window = new RenderWindow(new VideoMode((uint)screenWidth, (uint)screenHeight), "Lil Rogue");
+            var window = new RenderWindow(new VideoMode((uint)screenWidth, (uint)screenHeight, 32), "Lil Rogue");
             
             //set limit FPS
             window.SetFramerateLimit(60);
@@ -27,7 +28,6 @@ namespace LilRogue
 
             window.Closed += (s, e) => window.Close();
             var font = new Font("PublicPixel.ttf");
-
 
             var grid = new Grid<char> (mapWidth, mapHeight);
 
@@ -40,15 +40,24 @@ namespace LilRogue
             var upStairsPosition = FindWalkableCell(gameMap);
             var downStairsPosition = FindWalkableCell(gameMap);
 
+             //mob array
+            var Mobs = new List<Mob>();
+
+            // add mobs
+            for (int i = 0; i < 5; i++)
+            {
+                var mob = new Mob(grid, 'M', FindWalkableCell(gameMap), Color.Black, Color.Red, Color.Black, 35 , 1);
+                Mobs.Add(mob);
+            }
+
             var upStairs = new Entity(grid, '<', new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1, gameMap);
             var downStairs = new Entity(grid, '>', new Vector2i(downStairsPosition.X, downStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1, gameMap);
 
-            var player = new Player(grid,  new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Green, Color.White, schedulingSystem, 1, gameMap);
+            var player = new Player(grid,  new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Green, Color.White, schedulingSystem, 1, gameMap, Mobs);
 
-            var testMob = new Mob(grid, '!', new Vector2i(downStairsPosition.X, downStairsPosition.Y), Color.Black, Color.Red, Color.Black, 1, 1);
-
+           
             // Schedule an action to happen after 12 turns
-            schedulingSystem.Schedule(schedulingSystem.time + 12, () =>
+            schedulingSystem.Schedule(12, () =>
             {
                 Console.WriteLine("Scheduled action executed!");
             });
@@ -79,8 +88,11 @@ namespace LilRogue
                 // Render entities
                 upStairs.draw();
                 downStairs.draw();
+                foreach (var mob in Mobs)
+                {
+                    mob.draw();
+                }
                 player.draw();
-                testMob.draw();
                 // Render UI
                 ui.DrawBorderedBox(0, 0, UIWidth, UIHeight, Color.Black, Color.White);
 
@@ -88,12 +100,16 @@ namespace LilRogue
                 UIgrid.WriteString(1, 1, "HP: " + player.HP + "/" + player.MaxHP, Color.Black, Color.Green, Color.Black, 1, c =>  c);
                 UIgrid.WriteString(1, 3, "Mana: " + player.mana + "/" + player.MaxMana, Color.Black, new Color(153, 204, 255, 255), Color.Black, 1, c =>  c);
                 UIgrid.WriteString(1, 5, "Armor: " + player.armor, Color.Black, new Color(255, 153, 0, 255), Color.Black, 1, c =>  c);
+
+                // draw gold value
+                UIgrid.WriteString(15, 1, "Gold: " + player.Gold, Color.Black, Color.Yellow, Color.Black, 1, c =>  c);
+
                 // Render the grid
                 grid.Draw(window, font, gameMap, 0, 0);
                 UIgrid.Draw(window, font, null, 0, 30);
 
 
-                testMob.Update(gameMap, player, schedulingSystem);
+                
                 player.HandleInput(gameMap); // Handle player input and movement
 
                 window.Display();

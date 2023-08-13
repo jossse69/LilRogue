@@ -188,3 +188,7 @@ C:\Users\ferna\Documents\LilRogue\obj\Debug\net7.0\LilRogue.pdb
 C:\Users\ferna\Documents\LilRogue\obj\Debug\net7.0\LilRogue.genruntimeconfig.cache
 C:\Users\ferna\Documents\LilRogue\obj\Debug\net7.0\ref\LilRogue.dll
 C:\Users\ferna\Documents\LilRogue\bin\Debug\net7.0\PublicPixel.ttf
+C:\Users\ferna\Documents\LilRogue\bin\Debug\net7.0\attack.wav
+C:\Users\ferna\Documents\LilRogue\bin\Debug\net7.0\blipSelect.wav
+C:\Users\ferna\Documents\LilRogue\bin\Debug\net7.0\explosion.wav
+C:\Users\ferna\Documents\LilRogue\bin\Debug\net7.0\hitHurt.wav

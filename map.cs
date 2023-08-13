@@ -7,7 +7,7 @@ namespace LilRogue
 {
     public class Map
     {
-        private IMap _rogueSharpMap;
+        public IMap _rogueSharpMap;
         private bool[,] _isCellVisible; // Add the visibility array
 
         public int Width => _rogueSharpMap.Width;
@@ -32,7 +32,12 @@ namespace LilRogue
 
         public ICell GetRandomCell()
         {
-            return _rogueSharpMap.GetCell(Random.Shared.Next(Width), Random.Shared.Next(Height));
+            var cell = _rogueSharpMap.GetCell(Random.Shared.Next(Width), Random.Shared.Next(Height));
+            if (cell != null)
+            {
+                return cell;
+            }
+            return null;
         }
 
         public void ComputeFov(int x, int y, int radius, bool lightWalls)
@@ -72,8 +77,13 @@ namespace LilRogue
 
         public bool IsCellVisible(int x, int y)
         {
-            return _isCellVisible[x, y];
+            if (IsValidPosition(x, y))
+            {
+                return _isCellVisible[x, y];
+            }
+            return false;
         }
+
 
         private bool IsValidPosition(int x, int y)
         {

@@ -5,13 +5,13 @@ namespace LilRogue
 {
     public class Entity
     {
-        public char Symbol { get; }
+        public char Symbol { get; set; }
         public Vector2i Position { get; set; }
-        public Color FillColor { get; }
+        public Color FillColor { get; set; }
 
-        public Color BackgroundColor { get; }
-        public Color OutlineColor { get; }
-        public float OutlineThickness { get; }
+        public Color BackgroundColor { get; set; }
+        public Color OutlineColor { get; set; }
+        public float OutlineThickness { get; set; }
         
         private readonly Grid<char> grid;
         private SchedulingSystem schedulingSystem;
