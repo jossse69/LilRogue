@@ -2,7 +2,7 @@
 Lil Rogue is a small hobby game made by me (josé luiz) as fun pesonal project, it uses C#, RogueSharp,  and SFML for the rest (rendering, input, etc).
 
 ## playing the game
-just go to releases and download the `.zip` file, not hard.
+just go to [releases](https://github.com/jossse69/LilRogue/releases).
 
 ## controls
 use numpad to move, runing into a enemy attacks it.
@@ -21,6 +21,5 @@ this repo is under the MIT license.
 
 ## thx u part ❤
 this is the main and most active contributors of this repo. <br/>
-currently just me as it seems like no one wants to contribute to my projects man.
 
 1. @jossse69 (josé luiz costa beker) 🥇
