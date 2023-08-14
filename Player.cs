@@ -25,6 +25,7 @@ namespace LilRogue
         private SchedulingSystem _schedulingSystem;
         private List<Mob> mobs = new List<Mob>();
 
+
         public static SoundBuffer DMGsoundBuffer = new SoundBuffer("hitHurt.wav");
         public Sound DMGsound = new Sound(DMGsoundBuffer);
         public static SoundBuffer attacksoundBuffer = new SoundBuffer("attack.wav");
@@ -34,7 +35,6 @@ namespace LilRogue
         {
             movementTimer.Start();
             _schedulingSystem = schedulingSystem;
-            this.mobs = mobs;
             if (map != null)
             {
                 map.ComputeFov(Position.X, Position.Y, 10, true);
@@ -129,7 +129,7 @@ namespace LilRogue
                         }
                         else
                         {
-                            Console.WriteLine("already dead, moving on...");
+                            return;
                         }   
                     }
                 }
@@ -171,7 +171,7 @@ namespace LilRogue
             var DMGmuti = Math.Clamp(RNG.NextDouble(), 0.8, 1);
             var finalDMG = (double) damage * (DMGmuti * (armor + 1 - 0.6));
 
-            this.HP -=  (int) Math.Round(Math.Clamp(finalDMG * 1.25, 0, 999999), 1);
+            this.HP -=  (int) Math.Round(Math.Clamp(finalDMG * 0.75, 0, 999999), 1);
 
             DMGsound.Play();
         }

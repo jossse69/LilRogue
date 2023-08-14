@@ -19,8 +19,8 @@ namespace LilRogue
 
         private CellData[,] gridArray;
 
-        public int Width { get; }
-        public int Height { get; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         public Grid(int width, int height)
         {

@@ -26,7 +26,7 @@ namespace LilRogue
                 return new Vector2i(x, y);
             }
         
-            PathFinder pathFinder = new PathFinder(map.getMap(),0);
+            PathFinder pathFinder = new PathFinder(map.getMap(),1);
             RogueSharp.Path path = pathFinder.ShortestPath(map.GetCell(Position.X, Position.Y), map.GetCell(x, y));
         
             if (path != null)
@@ -69,7 +69,7 @@ namespace LilRogue
             //update state
             if (CanbeSeen(map))
             {
-                lastSeenPlayerPosition = new Vector2i(player.Position.X, player.Position.Y);
+                
                 state = "chase";
             }
             else if (lastSeenPlayerPosition.X != -1 && lastSeenPlayerPosition.Y != -1)
@@ -81,24 +81,28 @@ namespace LilRogue
                 
                 for (int i = 0; i < schedulingSystem.calculateTimeSteps(schedulingSystem.time, schedulingSystem.time + 1, 2); i++)
                 {
+                    if (CanbeSeen(map))
+                    {
+                        lastSeenPlayerPosition = new Vector2i(player.Position.X, player.Position.Y);
+                    }
                     
                     ToGoalPosition = GoToLocation(lastSeenPlayerPosition.X, lastSeenPlayerPosition.Y, map);
                     //check if the mob has reached the goal position
                     foreach (var mob in mobs)
                         if (ToGoalPosition.X == player.Position.X && ToGoalPosition.Y == player.Position.Y)
                         {
-                            Console.WriteLine("player reached! damaging player...");
+                            
                             player.TakeDamage(4.25);
                             break;
                         }
                         else if (ToGoalPosition.X == mob.Position.X && ToGoalPosition.Y == mob.Position.Y) //blocked by another mob
                         {
-                            Console.WriteLine("blocked by another mob...");
+                            
                             break;
                         }
                         else if (ToGoalPosition.X == mob.Position.X && ToGoalPosition.Y == mob.Position.Y)
                         {
-                            Console.WriteLine("cant see player...");
+                            
                             lastSeenPlayerPosition = new Vector2i(-1, -1);
                             break;
                         }
@@ -122,12 +126,12 @@ namespace LilRogue
                       foreach (var mob in mobs)
                         if (ToGoalPosition.X == player.Position.X && ToGoalPosition.Y == player.Position.Y)
                         {
-                            Console.WriteLine("blocked by player...");
+                            
                             break;
                         }
                         else if (ToGoalPosition.X == mob.Position.X && ToGoalPosition.Y == mob.Position.Y) //blocked by another mob
                         {
-                            Console.WriteLine("blocked by another mob...");
+                            
                             break;
                         }
                         else

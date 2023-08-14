@@ -3,13 +3,16 @@ using SFML.System;
 
 namespace LilRogue
 {
-    public class UI
+    public class UI : Grid<char>
     {
         private Grid<char> grid;
 
-        public UI(Grid<char> grid)
+        public UI(Grid<char> grid, int width, int height)
+        : base(width, height)
         {
             this.grid = grid;
+            this.grid.Width = width;
+            this.grid.Height = height;
         }
 
         public void DrawBorderedBox(int x, int y, int width, int height, Color borderColor, Color fillColor)

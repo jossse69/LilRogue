@@ -36,8 +36,8 @@ namespace LilRogue
             //UI and ui grid
             var UIgrid = new Grid<char> (UIWidth, UIHeight);
             var popupwindowgrid = new Grid<char> (mapWidth, mapHeight);
-            var ui = new UI(UIgrid);
-            var popupui = new UI(popupwindowgrid);
+            var ui = new UI(UIgrid, UIWidth, UIHeight);
+            var popupui = new UI(popupwindowgrid, UIWidth, UIHeight);
             var upStairsPosition = FindWalkableCell(gameMap);
             var downStairsPosition = FindWalkableCell(gameMap);
 
