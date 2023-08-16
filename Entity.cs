@@ -13,7 +13,7 @@ namespace LilRogue
         public Color OutlineColor { get; set; }
         public float OutlineThickness { get; set; }
         
-        private readonly Grid<char> grid;
+        public Grid<char> grid;
         private SchedulingSystem schedulingSystem;
         public Entity(Grid<char> grid, char symbol, Vector2i position, Color fillColor, Color backgroundColor, Color outlineColor, float outlineThickness = 0, Map? map = null)
         {
@@ -26,7 +26,7 @@ namespace LilRogue
             OutlineThickness = outlineThickness;
         }
 
-        public void draw()
+        public virtual void draw()
         {
             grid.SetCell(Position.X, Position.Y, Symbol, FillColor, BackgroundColor, OutlineColor, OutlineThickness);
         }

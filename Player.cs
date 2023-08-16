@@ -129,7 +129,7 @@ namespace LilRogue
                         }
                         else
                         {
-                            return;
+                            
                         }   
                     }
                 }
@@ -182,9 +182,6 @@ namespace LilRogue
             if (HP <= 0)
             {
                 isDead = true;
-                this.Symbol = '&';
-                this.BackgroundColor = Color.Black;
-                this.FillColor = Color.Red;
                 //wait a bit
                 deathwindowTimer.Start();
                 if (deathwindowTimer.ElapsedMilliseconds >= 1000)
@@ -194,5 +191,15 @@ namespace LilRogue
             }
         }
 
+        public override void draw()
+        {
+            //if dead
+            if (HP <= 0)
+            {
+                return;
+            }
+
+            grid.SetCell(Position.X, Position.Y, Symbol, FillColor, BackgroundColor, OutlineColor, OutlineThickness);
+        }
     }
 }

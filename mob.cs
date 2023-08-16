@@ -10,13 +10,32 @@ namespace LilRogue
         public int HP { get; set; }
         public int MaxHP { get; set; }
         public int armor { get; set; }
+        public int speed { get; set; }
+
+        public int attack { get; set; }
+
+        public char Symbol { get; set; }
+        public int[] color { get; set; }
+        public Color TrueColor { get; set; }
+        public int[] BackgroundColor { get; set; }
+        public Color TrueBackgroundColor { get; set; }
+        public string Type { get; set; }
         public Grid<char> grid1 { get; set; }
-        public Mob(Grid<char> grid, char symbol, Vector2i position, Color fillColor, Color backgroundColor, Color outlineColor, int maxHP = 100, float outlineThickness = 0)
+        public Mob(Grid<char> grid, char symbol, Vector2i position, Color fillColor, Color backgroundColor, Color outlineColor, int maxHP = 100, float outlineThickness = 0, string type = "null", int Speed = 1, int Attack = 0, int Armor = 0, SchedulingSystem schedulingSystem = null, Map map = null)
             : base(grid, symbol, position, fillColor, backgroundColor, outlineColor, outlineThickness)
         {
             MaxHP = maxHP;
             HP = MaxHP;
             grid1 = grid;
+            armor = Armor;
+            speed = Speed;
+            attack = Attack;
+            Type = type;
+            Symbol = symbol;
+            color = new int[] { fillColor.R, fillColor.G, fillColor.B };
+            TrueColor = new Color((byte)color[0], (byte)color[1], (byte)color[2]);
+            BackgroundColor = new int[] { backgroundColor.R, backgroundColor.G, backgroundColor.B };
+            TrueBackgroundColor = new Color((byte)BackgroundColor[0], (byte)BackgroundColor[1], (byte)BackgroundColor[2]);
         }
 
         public Vector2i GoToLocation(int x, int y, Map map)
@@ -58,10 +77,6 @@ namespace LilRogue
             var lastSeenPlayerPosition = new Vector2i(-1, -1);
             if (HP <= 0 || HP > MaxHP)
             {
-                // set char to a bloody red "&"
-                this.Symbol = '&';
-                this.BackgroundColor = Color.Black;
-                this.FillColor = Color.Red;
 
                 return;
             }
@@ -79,7 +94,7 @@ namespace LilRogue
          
             if (state == "chase"){
                 
-                for (int i = 0; i < schedulingSystem.calculateTimeSteps(schedulingSystem.time, schedulingSystem.time + 1, 2); i++)
+                for (int i = 0; i < schedulingSystem.calculateTimeSteps(schedulingSystem.time, schedulingSystem.time + 6, speed * 2); i++)
                 {
                     if (CanbeSeen(map))
                     {
@@ -91,8 +106,7 @@ namespace LilRogue
                     foreach (var mob in mobs)
                         if (ToGoalPosition.X == player.Position.X && ToGoalPosition.Y == player.Position.Y)
                         {
-                            
-                            player.TakeDamage(4.25);
+                            player.TakeDamage(attack);
                             break;
                         }
                         else if (ToGoalPosition.X == mob.Position.X && ToGoalPosition.Y == mob.Position.Y) //blocked by another mob
@@ -119,7 +133,7 @@ namespace LilRogue
                     wanderpos = map.GetRandomCell();
                 }
 
-                for (int i = 0; i < schedulingSystem.calculateTimeSteps(schedulingSystem.time, schedulingSystem.time + 1, 1); i++)
+                for (int i = 0; i < schedulingSystem.calculateTimeSteps(schedulingSystem.time, schedulingSystem.time + 6, speed); i++)
                 {     
                     ToGoalPosition = GoToLocation(wanderpos.X, wanderpos.Y, map);
 
@@ -151,6 +165,16 @@ namespace LilRogue
 
             this.HP -=  (int) Math.Round(Math.Clamp(finalDMG * 1.25, 0, 999999), 1);
 
+        }
+        public override void draw()
+        {
+            //if dead
+            if (HP <= 0)
+            {
+                return;
+            }
+
+            grid1.SetCell(Position.X, Position.Y, Symbol, TrueColor, TrueBackgroundColor, Color.Black, 1);
         }
 
     }

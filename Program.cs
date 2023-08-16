@@ -5,6 +5,7 @@ using SFML.System;
 using SFML.Window;
 using RogueSharp;
 using RogueSharp.MapCreation;
+using Newtonsoft.Json;
 
 namespace LilRogue
 {
@@ -21,6 +22,7 @@ namespace LilRogue
 
             var window = new RenderWindow(new VideoMode((uint)screenWidth, (uint)screenHeight, 32), "Lil Rogue");
             
+            var RNG = new Random();
             //set limit FPS
             window.SetFramerateLimit(60);
 
@@ -44,12 +46,28 @@ namespace LilRogue
              //mob array
             var Mobs = new List<Mob>();
 
-            // add mobs
-            for (int i = 0; i < 2; i++)
+            string monstersjson = File.ReadAllText("data/monsters.json");
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(new ColorConverter());
+            var monsters = JsonConvert.DeserializeObject<List<Mob>>(monstersjson, settings);
+            
+            for (int i = 0; i < 5; i++)
             {
-                var mob = new Mob(grid, 'M', FindWalkableCell(gameMap), Color.Black, Color.Red, Color.Black, 35 , 1);
+                //get a random monster
+                var monster = monsters[RNG.Next(0, monsters.Count)];
+                var pos = FindWalkableCell(gameMap);
+                var color = monster.color;
+                var BackgroundColor = monster.BackgroundColor;
+            
+                Mob mob = new Mob(grid, monster.Symbol, pos, ConvertColor(BackgroundColor), ConvertColor(color), Color.Black, monster.HP, 0, monster.Type, monster.speed, monster.attack, monster.armor, schedulingSystem, gameMap);
                 Mobs.Add(mob);
             }
+            
+            
+            
+
+
+
 
             var upStairs = new Entity(grid, '<', new Vector2i(upStairsPosition.X, upStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1, gameMap);
             var downStairs = new Entity(grid, '>', new Vector2i(downStairsPosition.X, downStairsPosition.Y), Color.Black, Color.Yellow, Color.White, 1, gameMap);
@@ -144,6 +162,10 @@ namespace LilRogue
                         return new Vector2i(randomCell.X, randomCell.Y);
                     }
                 }
+            }
+            static Color ConvertColor(int[] ints)
+            {
+                return new Color((byte)ints[0], (byte)ints[1], (byte)ints[2]);
             }
         }
     }

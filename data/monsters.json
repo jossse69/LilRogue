@@ -1,0 +1,44 @@
+[
+        {
+            "id": 0,
+            "name": "Rat",
+            "description": "A small, brown, rat. its eyes are red, and its appearance is is ugly. also, it is very fast and wants to kill you.",
+            "HP": 25,
+            "speed": 3,
+            "armor": 1,
+            "attack": 1,
+            "symbol": "r",
+            "color": [
+                153,
+                77,
+                51
+            ],
+            "backgroundColor": [
+                0,
+                0,
+                0
+            ],
+            "type": "animal"
+        },
+        {
+            "id": 1,
+            "name": "Zombie",
+            "description": "A undead (by some force) human body. unstoppable rage and hunger for human flesh is visible in its yellowish eyes. its skin is pale green and full of cuts and bruises.",
+            "HP": 50,
+            "speed": 2,
+            "armor": 2,
+            "attack": 2,
+            "symbol": "Z",
+            "color": [
+                100,
+                155,
+                100
+            ],
+            "backgroundColor": [
+                0,
+                0,
+                0
+            ],
+            "type": "undead"
+        }
+]
