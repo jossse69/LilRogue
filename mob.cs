@@ -21,6 +21,12 @@ namespace LilRogue
         public Color TrueBackgroundColor { get; set; }
         public string Type { get; set; }
         public Grid<char> grid1 { get; set; }
+
+        public string state = "wander";
+
+        public Vector2i ToGoalPosition = new Vector2i(0,0);
+
+        public Vector2i lastSeenPlayerPosition = new Vector2i(-1, -1);
         public Mob(Grid<char> grid, char symbol, Vector2i position, Color fillColor, Color backgroundColor, Color outlineColor, int maxHP = 100, float outlineThickness = 0, string type = "null", int Speed = 1, int Attack = 0, int Armor = 0, SchedulingSystem schedulingSystem = null, Map map = null)
             : base(grid, symbol, position, fillColor, backgroundColor, outlineColor, outlineThickness)
         {
@@ -72,9 +78,6 @@ namespace LilRogue
         
          public void Update(Map map, Player player, SchedulingSystem schedulingSystem, List<Mob> mobs)
          {
-            var state = "wander";
-            var ToGoalPosition = new Vector2i(0,0);
-            var lastSeenPlayerPosition = new Vector2i(-1, -1);
             if (HP <= 0 || HP > MaxHP)
             {
 

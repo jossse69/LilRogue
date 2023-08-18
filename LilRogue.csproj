@@ -29,6 +29,9 @@
   <None Update="explosion.wav">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
+  <None Update="data\monsters.json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
   <!-- Add more files as needed -->
 </ItemGroup>
 

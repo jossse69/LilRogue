@@ -31,87 +31,51 @@ namespace LilRogue
 
         public void SetCell(int x, int y, T value, Color backgroundColor, Color fillColor, Color outlineColor, float outlineThickness)
         {
-            if (IsValidPosition(x, y))
-            {
+        
                 gridArray[x, y] = new CellData { Value = value, BackgroundColor = backgroundColor, FillColor = fillColor, OutlineColor = outlineColor, OutlineThickness = outlineThickness };
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Position is out of grid bounds.");
-            }
+           
         }
 
         public T GetCellValue(int x, int y)
         {
-            if (IsValidPosition(x, y))
-            {
+            
                 return gridArray[x, y].Value;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Position is out of grid bounds.");
-            }
+
         }
 
         public Color GetCellBackgroundColor(int x, int y)
         {
-            if (IsValidPosition(x, y))
-            {
+
                 return gridArray[x, y].BackgroundColor;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Position is out of grid bounds.");
-            }
+
         }
 
         public Color GetCellFillColor(int x, int y)
         {
-            if (IsValidPosition(x, y))
-            {
+
                 return gridArray[x, y].FillColor;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Position is out of grid bounds.");
-            }
+
         }
 
         public float GetCellOutlineThickness(int x, int y)
         {
-            if (IsValidPosition(x, y))
-            {
+    
                 return gridArray[x, y].OutlineThickness;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Position is out of grid bounds.");
-            }
+           
         }
 
         public void WriteString(int x, int y, string text, Color backgroundColor, Color fillColor, Color outlineColor, float outlineThickness, Func<char, T> charToValue)
         {
-            if (IsValidPosition(x, y))
-            {
+            
                 int currentX = x;
 
                 foreach (char c in text)
                 {
-                    if (IsValidPosition(currentX, y))
-                    {
+                
                         SetCell(currentX, y, charToValue(c), backgroundColor, fillColor, outlineColor, outlineThickness);
                         currentX++;
-                    }
-                    else
-                    {
-                        throw new ArgumentOutOfRangeException("Text got out of bounds.");
-                    }
+                    
                 }
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Position is out of grid bounds.");
-            }
         }
 
         public void Draw(RenderWindow window, Font font, Map map, int Xoffset, int Yoffset)
@@ -154,11 +118,6 @@ namespace LilRogue
                     }
                 }
             }
-        }
-
-        public bool IsValidPosition(int x, int y)
-        {
-            return x >= 0 && x < Width && y >= 0 && y < Height;
         }
     }
 }

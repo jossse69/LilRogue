@@ -126,10 +126,9 @@ namespace LilRogue
                 //if player showdeathwindow is true, draw death window
                 if (player.showdeathwindow  == true)
                 {
-                    popupui.DrawBorderedBox(0, 0, 40, 10, Color.Black, Color.White);
-                    popupwindowgrid.WriteString(18, 0, ":(", Color.Black, Color.Red, Color.Black, 1, c => c);
+                    popupui.DrawBorderedBox(0, 0, mapWidth, mapHeight, Color.Black, Color.White);
                     popupwindowgrid.WriteString(3, 1, "well... looks like you died", Color.Black, Color.White, Color.Black, 1, c => c);
-                    popupwindowgrid.WriteString(14, 9, "[press enter]", Color.Black, Color.White, Color.Black, 1, c => c);
+                    popupwindowgrid.WriteString(14, 8, "[press enter]", Color.Black, Color.White, Color.Black, 1, c => c);
 
                     //on enter, close game
                     if (Keyboard.IsKeyPressed(Keyboard.Key.Enter))
@@ -142,7 +141,7 @@ namespace LilRogue
                 // Render the grid
                 grid.Draw(window, font, gameMap, 0, 0);
                 UIgrid.Draw(window, font, null, 0, 30);
-                popupwindowgrid.Draw(window, font, null, 5, 15);
+                popupwindowgrid.Draw(window, font, null, 0, 0);
 
 
                 
