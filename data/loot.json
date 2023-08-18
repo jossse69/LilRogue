@@ -1,0 +1,91 @@
+[
+    {
+        "id": 0,
+        "name": "penny",
+        "type": "coin",
+        "value": 1,
+        "description": "A simple penny. its value is 1 farging."
+    },
+    {
+        "id": 1,
+        "name": "nickel",
+        "type": "coin",
+        "value": 5,
+        "description": "A nickel. its value is 5 fargings."
+    },
+    {
+        "id": 2,
+        "name": "dime",
+        "type": "coin",
+        "value": 10,
+        "description": "A dime. its value is 10 fargings."
+    },
+    {
+        "id": 3,
+        "name": "quarter",
+        "type": "coin",
+        "value": 25,
+        "description": "A quarter. its value is 25 fargings."
+    },
+    {
+        "id": 4,
+        "name": "the bible",
+        "type": "book",
+        "value": 100,
+        "description": "The bible. some one once said its filled with wisdom and holy magic, maybe you can lern spells from it...you fell holy when holding it! its value is 100 fargings.",
+        "spells": [
+            {"name": "crack the sky", "description": "summon beams of light from the skies above!"},
+            {"name": "holy water", "description": "a splash of holy water!"},
+            {"name": "holy fire", "description": "a blast of holy fire!"},
+            {"name": "i <3 god", "description": "increase your angel deal chance by 10%!"}
+        ]
+    },
+    {
+        "id": 5,
+        "name": "book of lucifer",
+        "type": "book",
+        "value": 100,
+        "description": "The book of lucifer. its splashed with goat blood and, on its cover, a picture of a petagram, and upside down...you fell like you are making a sin when holding it... its value is 100 fargings.",
+        "spells": [
+            {"name": "the rage of samson", "description": "increases your DMG for a while!"},
+            {"name": "dark matter", "description": "fears nearby enemies!"},
+            {"name": "brimstone", "description": "a blood laser barage!"},
+            {"name": "goat head", "description": "increase your devil deal chance by 10%!"}
+        ]
+    },
+    {
+        "id": 6,
+        "name": "wisard's big spells book",
+        "type": "book",
+        "value": 100,
+        "description": "Wisard's big spells book. a book from the man himself, enitas sonas, its is filled with spells from his knowledge, wild magic. and its value is 100 fargings."
+    },
+    {
+        "id": 7,
+        "name": "red bean paste",
+        "type": "food",
+        "value": 25,
+        "description": "Red bean paste, its juice is very sweet, filling you with a bit of health. its value is 25 fargings."
+    },
+    {
+        "id": 8,
+        "name": "blue bean paste",
+        "type": "food",
+        "value": 25,
+        "description": "Blue bean paste, its juice is very bright blue and with magic dust, filling you with a bit of body mana. its value is 25 fargings."
+    },
+    {
+        "id": 9,
+        "name": "PB&J sandwich",
+        "type": "food",
+        "value": 25,
+        "description": "A peaut butter and jelly sandwich, everyone likes it, because it make you like you go to the gym every day, but its does not last long. its value is 25 fargings."
+    },
+    {
+        "id": 10,
+        "name": "candy",
+        "type": "food",
+        "value": 0,
+        "description": "A candy, useless...? its worthless... its value is 0 fargings. also, eating it does not make you happy."
+    }
+]
